@@ -1,6 +1,6 @@
 { 
     "name": "DSI", 
-    "version": "0.1.0", 
+    "version": "v0.1.0", 
     "title": "DSI", 
-    "dependencies": [] 
+    "dependencies": ["SI >= v0.1.0"] 
 }
