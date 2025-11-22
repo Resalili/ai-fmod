@@ -1,1 +1,6 @@
-{ "name": "NN", "version": "0.1.0", "title": "NN", "dependencies": [] }
+{ 
+    "name": "NN", 
+    "version": "0.1.0", 
+    "title": "NN", 
+    "dependencies": [] 
+}

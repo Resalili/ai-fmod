@@ -1,1 +1,6 @@
-{ "name": "SI", "version": "0.1.0", "title": "SI", "dependencies": [] }
+{ 
+    "name": "SI", 
+    "version": "0.1.0", 
+    "title": "SI", 
+    "dependencies": [] 
+}

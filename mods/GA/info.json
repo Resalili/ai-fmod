@@ -1,1 +1,6 @@
-{ "name": "GA", "version": "0.1.0", "title": "GA", "dependencies": [] }
+{ 
+    "name": "GA", 
+    "version": "0.1.0", 
+    "title": "GA", 
+    "dependencies": [] 
+}
