@@ -80,7 +80,8 @@ build_mod() {
     rm -f "$ZIP"
 
     # Create zip FROM OUTSIDE each mod folder
-    zip -r "$ZIP" "$DIR" -x $IGNORE_FILES
+    (cd "$MODS_DIR" && zip -r "../$ZIP" "$(basename "$DIR")" -x $IGNORE_FILES)
+
 
 }
 
