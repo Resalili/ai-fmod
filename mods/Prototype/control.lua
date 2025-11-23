@@ -6,9 +6,8 @@ local TICK_INTERVAL = 1
 local RAY_DISTANCE = 100
 
 script.on_init(function()
-    storage = storage or {}
     storage.swarm_follow_mouse = false
-    storage.active_group = nil  -- 🆕 Зберігаємо активну групу
+    storage.active_group = nil
 end)
 
 remote.add_interface("ai_core", {
@@ -19,7 +18,6 @@ remote.add_interface("ai_core", {
     
     stop_follow_mouse = function()
         storage.swarm_follow_mouse = false
-        -- 🆕 Видаляємо групу при вимкненні
         if storage.active_group and storage.active_group.valid then
             storage.active_group.destroy()
             storage.active_group = nil
@@ -28,10 +26,10 @@ remote.add_interface("ai_core", {
     end
 })
 
-script.on_nth_tick(TICK_INTERVAL, function()
+script.on_nth_tick(1, function()
     if not storage.swarm_follow_mouse then return end
     
-    local player = game.players[1]
+    local player = game.get_player(1)
     if not (player and player.valid and player.connected) then return end
     
     local surface = player.surface
@@ -40,7 +38,6 @@ script.on_nth_tick(TICK_INTERVAL, function()
 
     local units = surface.find_entities_filtered{type = "unit", force = "enemy"}
     if #units < 3 then 
-        -- 🆕 Якщо мало юнітів - очищаємо групу
         if storage.active_group and storage.active_group.valid then
             storage.active_group.destroy()
             storage.active_group = nil
@@ -54,7 +51,6 @@ script.on_nth_tick(TICK_INTERVAL, function()
     -- Перевіряємо, чи можна атакувати ціль
     local can_attack_target = false
     if target and target.valid then
-        -- 🆕 Розширена перевірка: вороги, будівлі, але НЕ гравець
         if target.health and target.health > 0 and target.force.name ~= "player" then
             can_attack_target = true
             dest = target.position
@@ -71,27 +67,20 @@ script.on_nth_tick(TICK_INTERVAL, function()
         }
     end
 
-    -- 🆕 Якщо група вже існує - оновлюємо команду
+    -- Створюємо нову групу або оновлюємо існуючу
     if storage.active_group and storage.active_group.valid then
-        -- Додаємо нових юнітів до групи
-        for _, u in pairs(units) do
-            if not storage.active_group.is_member(u) then
-                storage.active_group.add_member(u)
-            end
-        end
-        
-        -- Оновлюємо команду
+        -- Оновлюємо команду для існуючої групи
         if can_attack_target then
             storage.active_group.set_command{
                 type = defines.command.attack,
                 target = target,
-                distraction = defines.distraction.none  -- 🆕 НЕ відволікатися!
+                distraction = defines.distraction.none
             }
         else
             storage.active_group.set_command{
                 type = defines.command.go_to_location,
                 destination = dest,
-                distraction = defines.distraction.none,  -- 🆕 НЕ відволікатися!
+                distraction = defines.distraction.none,
                 pathfind_flags = {
                     allow_destroy_friendly_entities = false
                 }
@@ -115,13 +104,13 @@ script.on_nth_tick(TICK_INTERVAL, function()
             storage.active_group.set_command{
                 type = defines.command.attack,
                 target = target,
-                distraction = defines.distraction.none  -- 🆕 НЕ відволікатися!
+                distraction = defines.distraction.none
             }
         else
             storage.active_group.set_command{
                 type = defines.command.go_to_location,
                 destination = dest,
-                distraction = defines.distraction.none,  -- 🆕 НЕ відволікатися!
+                distraction = defines.distraction.none,
                 pathfind_flags = {
                     allow_destroy_friendly_entities = false
                 }
