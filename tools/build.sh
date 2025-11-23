@@ -73,7 +73,7 @@ build_mod() {
         fi
     fi
 
-    ZIP="$DIST_DIR/${NAME}_${VERSION}.zip"
+    ZIP="$DIST_DIR/${NAME}_${VERSION#v}.zip"
 
     echo "Building $NAME ($VERSION) -> $ZIP"
 
