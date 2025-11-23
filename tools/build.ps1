@@ -5,8 +5,8 @@ Param(
     [switch]$h
 )
 
-$MODS_DIR = "mods"
-$DIST_DIR = "dist"
+$MODS_DIR = "../mods"
+$DIST_DIR = "../dist"
 $IGNORE = @(".git", ".gitkeep", ".DS_Store", "Thumbs.db")
 
 function Show-Help {
